@@ -9,7 +9,7 @@ using TaskFlow.Data.Interface;
 
 namespace TaskFlow.Core.Commands
 {
-    [Command("tk", Description = "TaskFlow command initializer")]
+    [Command(Description = "TaskFlow command initializer")]
     public class TaskCommands : CliFx.ICommand
     {
         private readonly ITaskRepository _taskRepository;
