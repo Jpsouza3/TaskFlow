@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using TaskFlow.Business.Interface;
 using TaskFlow.Business.Model;
+using TaskFlow.Core.SpectreOutputs;
 using TaskFlow.Data.Interface;
 
 namespace TaskFlow.Core.Commands
@@ -18,20 +19,20 @@ namespace TaskFlow.Core.Commands
             _taskRepository = taskRepository;
         }
 
-        [CommandOption("add", 'a', Description = "Add task command")]
+        [CommandOption("add", Description = "Add task command")]
         public string? AddTask { get; init; }
 
-        [CommandOption("list", 'l', Description = "List task command")]
+        [CommandOption("list", Description = "List task command")]
         public bool ListTasks { get; init; }
 
-        [CommandOption("delete", 'd', Description = "Delete task command")]
+        [CommandOption("remove", Description = "Remove task command")]
         public int? DeleteTask { get; init; }
 
-        [CommandOption("update", 'u', Description = "Update task command. Usage: -u <id> <newName>")]
-        public string[]? UpdateTask { get; init; } // Alterado para array
+        [CommandOption("update", Description = "Update task command. Usage: -u <id> <newName>")]
+        public string[]? UpdateTask { get; init; }
 
-        [CommandOption("complete", 'c', Description = "Complete task command")]
-        public int? CompleteTask { get; init; } // Alterado para nullable
+        [CommandOption("complete", Description = "Complete task command")]
+        public int? CompleteTask { get; init; }
 
         public async ValueTask ExecuteAsync(IConsole console)
         {
@@ -44,20 +45,24 @@ namespace TaskFlow.Core.Commands
                 };
 
                 await _taskRepository.Add(newTask);
-                await console.Output.WriteLineAsync($"Task '{AddTask}' added.");
+                DefaultOutputs.PrintTaskAdded(newTask);
             }
             else if (ListTasks)
             {
-                var tasks = await _taskRepository.GetAll();
-                foreach (var task in tasks)
-                {
-                    await console.Output.WriteLineAsync($"Task #{task.Id}: {task.Name} (Created: {task.CreationDate})");
-                }
+                IEnumerable<TaskModel> tasks = await _taskRepository.GetAll();
+                DefaultOutputs.PrintTaskTable(tasks);
             }
             else if (DeleteTask.HasValue)
             {
-                await _taskRepository.Remove(DeleteTask.Value);
-                await console.Output.WriteLineAsync($"Task #{DeleteTask} removed.");
+                if (await _taskRepository.GetById(DeleteTask.Value) == null)
+                {
+                    DefaultOutputs.printTaskNotFound(DeleteTask.Value);
+                }
+                else
+                {
+                    await _taskRepository.Remove(DeleteTask.Value);
+                    DefaultOutputs.PrintRemoveTask(DeleteTask.Value);
+                }
             }
             else if (UpdateTask != null && UpdateTask.Length == 2)
             {
@@ -69,11 +74,11 @@ namespace TaskFlow.Core.Commands
                     {
                         taskToUpdate.Name = UpdateTask[1];
                         await _taskRepository.Update(taskToUpdate);
-                        await console.Output.WriteLineAsync($"Task #{taskId} updated to '{UpdateTask[1]}'.");
+                        DefaultOutputs.PrintUpdateTask(taskId, UpdateTask[1]);
                     }
                     else
                     {
-                        await console.Output.WriteLineAsync($"Task #{taskId} not found.");
+                        DefaultOutputs.printTaskNotFound(taskId);
                     }
                 }
                 else
@@ -86,12 +91,12 @@ namespace TaskFlow.Core.Commands
                 var taskToComplete = await _taskRepository.GetById(CompleteTask.Value);
                 if (taskToComplete != null)
                 {
-                    // Lógica para marcar como concluída (adicione uma propriedade no modelo se necessário)
-                    await console.Output.WriteLineAsync($"Task #{CompleteTask} marked as completed.");
+                    await _taskRepository.Remove(CompleteTask.Value);
+                    DefaultOutputs.PrintCompleteTask(CompleteTask.Value);
                 }
                 else
                 {
-                    await console.Output.WriteLineAsync($"Task #{CompleteTask} not found.");
+                    DefaultOutputs.printTaskNotFound(CompleteTask.Value);
                 }
             }
             else
