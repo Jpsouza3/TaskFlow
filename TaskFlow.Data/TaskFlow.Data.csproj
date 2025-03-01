@@ -14,5 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TaskFlow.Business\TaskFlow.Business.csproj" />
   </ItemGroup>
-
+	<PropertyGroup>
+		<NoWarn>CS8613</NoWarn>
+	</PropertyGroup>
 </Project>
