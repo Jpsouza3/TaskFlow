@@ -22,9 +22,9 @@ TaskFlow CLI is a lightweight task manager built using **.NET 8**, [CliFx](https
 ## Installation
 
 TaskFlow CLI is distributed as a .NET global tool. Once published, you can install it globally with:
-
+https://www.nuget.org/packages/TaskFlowCli
 ```bash
-dotnet tool install --global tk 
+dotnet tool install --global TaskFlowCli --version 1.0.0
 ````
 
 
