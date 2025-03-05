@@ -10,7 +10,7 @@ namespace TaskFlow.Business.Model
     [Table("Tasks")]
     public class TaskModel : TEntity
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public DateTime CreationDate { get; set; }
     }
 }

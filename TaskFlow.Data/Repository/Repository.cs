@@ -86,5 +86,12 @@ namespace TaskFlow.Data.Repository
             return prop.GetCustomAttribute<KeyAttribute>() != null
                    || prop.Name.Equals("Id", StringComparison.OrdinalIgnoreCase);
         }
+
+        public Task DropDb()
+        {
+            using var connection = _connectionFactory.CreateConnection();
+
+            return connection.ExecuteAsync($"DROP TABLE IF EXISTS {_tableName}");
+        }
     }
 }

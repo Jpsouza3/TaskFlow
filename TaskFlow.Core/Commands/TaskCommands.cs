@@ -34,7 +34,10 @@ namespace TaskFlow.Core.Commands
         [CommandOption("complete", Description = "Complete task command")]
         public int? CompleteTask { get; init; }
 
-        public async ValueTask ExecuteAsync(IConsole console)
+        [CommandOption("dropdb", Description = "Drop batabase command")]
+        public bool DropDatabase { get; init; }
+
+        public async ValueTask ExecuteAsync(CliFx.Infrastructure.IConsole console)
         {
             if (!string.IsNullOrEmpty(AddTask))
             {
@@ -98,6 +101,24 @@ namespace TaskFlow.Core.Commands
                 {
                     DefaultOutputs.printTaskNotFound(CompleteTask.Value);
                 }
+            }
+            else if (DropDatabase)
+            {
+                DefaultOutputs.PrintDecision();
+                console.Output.WriteLine();
+                var response = console.Input.ReadLine();
+
+                if (response == "y")
+                {
+                    await _taskRepository.DropDb();
+                    DefaultOutputs.PrintDropDatabase();
+                }
+
+                else if (response == "n")
+                {
+                    DefaultOutputs.PrintDropDatabaseCanceled();
+                }
+
             }
             else
             {

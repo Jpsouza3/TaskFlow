@@ -15,5 +15,6 @@ namespace TaskFlow.Business.Interface
         Task<IEnumerable<TEntity>> GetAll();
         Task Update(TEntity obj);
         Task Remove(int id);
+        Task DropDb();
     }
 }

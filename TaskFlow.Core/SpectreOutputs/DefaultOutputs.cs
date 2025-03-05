@@ -88,5 +88,26 @@ namespace TaskFlow.Core.SpectreOutputs
             AnsiConsole.Write(table);
 
         }
+
+        internal static void PrintDropDatabase()
+        {
+            AnsiConsole.MarkupLine(
+                "[white on red3_1]Database dropped[/]"
+            );
+        }
+
+        internal static void PrintDropDatabaseCanceled()
+        {
+            AnsiConsole.MarkupLine(
+                "[bold grey62]Drop database canceled[/]"
+            );
+        }
+
+        public static void PrintDecision()
+        {
+            AnsiConsole.MarkupLine(
+                "[white on red3_1]WARNING[/] [bold grey62]Are you sure you want to drop the database? (y/n)[/]"
+            );
+        }
     }
 }

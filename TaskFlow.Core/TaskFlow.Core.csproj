@@ -1,9 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<PackageId>TaskFlow</PackageId>
+		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>tk</ToolCommandName>
 	</PropertyGroup>
-  <PropertyGroup>
+
+	<PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
