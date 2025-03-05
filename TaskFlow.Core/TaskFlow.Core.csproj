@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<PackageId>TaskFlow</PackageId>
+		<PackageId>TaskFlowCli</PackageId>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>tk</ToolCommandName>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<PropertyGroup>
