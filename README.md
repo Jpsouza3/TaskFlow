@@ -6,7 +6,7 @@
 TaskFlow CLI is a lightweight task manager built using **.NET 8**, [CliFx](https://github.com/Tyrrrz/CliFx) for command-line parsing, [Spectre.Console](https://spectreconsole.net/) for stunning console outputs, and [Dapper](https://github.com/DapperLib/Dapper) with SQLite for data access.
 
 <div align="center">
-  <img src="https://github.com/Jpsouza3/TaskFlow/blob/adding-gif-to-readme/readme.gif" width="500" />
+  <img src="https://github.com/Jpsouza3/TaskFlow/blob/adding-gif-to-readme/readme.gif?raw=true" width="500" />
 </div>
 
 ## Features
